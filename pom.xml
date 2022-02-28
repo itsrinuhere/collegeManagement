@@ -2,9 +2,9 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.build</groupId>
-  <artifactId>software</artifactId>
+  <artifactId>package</artifactId>
   <packaging>jar</packaging>
-  <version>1</version>
+  <version>1.0-SNAPSHOT</version>
   <name>software</name>
   <url>http://maven.apache.org</url>
   <dependencies>
@@ -14,9 +14,90 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+
   </dependencies>
   <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
    </properties>
+   <build>
+     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.5.1</version>
+        <configuration>
+            <source>1.8</source>
+            <target>1.8</target>
+        </configuration>
+    </plugin>
+    <!-- shader plugin-->
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-shade-plugin</artifactId>
+      <version>1.7.1</version>
+      <executions>
+          <execution>
+              <phase>package</phase>
+              <goals>
+                  <goal>shade</goal>
+              </goals>
+          </execution>
+      </executions>
+      <configuration>
+          <shadedArtifactAttached>true</shadedArtifactAttached>
+          <shadedClassifierName>shaded</shadedClassifierName>
+          <transformers>
+              <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <mainClass>com.build.App</mainClass>
+              </transformer>
+          </transformers>
+      </configuration>
+    </plugin>
+    <!-- end of shader-->
+    <!--Launch4J-->
+    <plugin>
+      <groupId>com.akathist.maven.plugins.launch4j</groupId>
+      <artifactId>launch4j-maven-plugin</artifactId>
+      <version>1.5.1</version>
+      <executions>
+          <execution>
+              <id>l4j-clui</id>
+              <phase>package</phase>
+              <goals>
+                  <goal>launch4j</goal>
+              </goals>
+              <configuration>
+                  <headerType>gui</headerType>
+                  <jar>${project.build.directory}/${artifactId}-${version}-shaded.jar</jar>
+                  <outfile>${project.build.directory}/software.exe</outfile>
+                  <downloadUrl>http://java.com/download</downloadUrl>
+                  <classPath>
+                      <mainClass>com.build.App</mainClass>
+                      <preCp>anything</preCp>
+                  </classPath>
+                  <icon>application.ico</icon>
+                  <jre>
+                      <minVersion>1.6.0</minVersion>
+                      <jdkPreference>preferJre</jdkPreference>
+                  </jre>
+                  <versionInfo>
+                      <fileVersion>1.0.0.0</fileVersion>
+                      <txtFileVersion>${project.version}</txtFileVersion>
+                      <fileDescription>${project.name}</fileDescription>
+                      <copyright>2012 techietune.com</copyright>
+                      <productVersion>1.0.0.0</productVersion>
+                      <txtProductVersion>1.0.0.0</txtProductVersion>
+                      <productName>${project.name}</productName>
+                      <companyName>techietune.com</companyName>
+                      <internalName>student managemenet system</internalName>
+                      <originalFilename>software.exe</originalFilename>
+                  </versionInfo>
+              </configuration>
+          </execution>
+      </executions>
+    </plugin>
+     </plugins>
+   </build>
 </project>
