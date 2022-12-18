@@ -14,6 +14,20 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+   
+<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.31</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc -->
+<dependency>
+    <groupId>org.xerial</groupId>
+    <artifactId>sqlite-jdbc</artifactId>
+    <version>3.7.2</version>
+</dependency>
+
 
   </dependencies>
   <properties>
@@ -56,48 +70,21 @@
       </configuration>
     </plugin>
     <!-- end of shader-->
-    <!--Launch4J-->
     <plugin>
-      <groupId>com.akathist.maven.plugins.launch4j</groupId>
-      <artifactId>launch4j-maven-plugin</artifactId>
-      <version>1.5.1</version>
-      <executions>
-          <execution>
-              <id>l4j-clui</id>
-              <phase>package</phase>
-              <goals>
-                  <goal>launch4j</goal>
-              </goals>
-              <configuration>
-                  <headerType>gui</headerType>
-                  <jar>${project.build.directory}/${artifactId}-${version}-shaded.jar</jar>
-                  <outfile>${project.build.directory}/software.exe</outfile>
-                  <downloadUrl>http://java.com/download</downloadUrl>
-                  <classPath>
-                      <mainClass>com.build.App</mainClass>
-                      <preCp>anything</preCp>
-                  </classPath>
-                  <icon>application.ico</icon>
-                  <jre>
-                      <minVersion>1.6.0</minVersion>
-                      <jdkPreference>preferJre</jdkPreference>
-                  </jre>
-                  <versionInfo>
-                      <fileVersion>1.0.0.0</fileVersion>
-                      <txtFileVersion>${project.version}</txtFileVersion>
-                      <fileDescription>${project.name}</fileDescription>
-                      <copyright>2012 techietune.com</copyright>
-                      <productVersion>1.0.0.0</productVersion>
-                      <txtProductVersion>1.0.0.0</txtProductVersion>
-                      <productName>${project.name}</productName>
-                      <companyName>techietune.com</companyName>
-                      <internalName>student managemenet system</internalName>
-                      <originalFilename>software.exe</originalFilename>
-                  </versionInfo>
-              </configuration>
-          </execution>
-      </executions>
-    </plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-jar-plugin</artifactId>
+    <configuration>
+        <archive>
+            <manifest>
+                <addClasspath>true</addClasspath>
+                <classpathPrefix>libs/</classpathPrefix>
+                <mainClass>
+                   com.build.App
+                </mainClass>
+            </manifest>
+        </archive>
+    </configuration>
+</plugin>
      </plugins>
    </build>
 </project>

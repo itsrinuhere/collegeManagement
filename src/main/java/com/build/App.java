@@ -6,15 +6,19 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
+
 import javax.swing.*;
 import java.awt.EventQueue;
 /**
  * Hello world!
  *
  */
-public class App 
-{private Connection con = null;
-    private String url = "jdbc:sqlite:./SQLite.db";
+public class App {
+	private Connection con = null;
+	 
+    private String url = "jdbc:sqlite:SQLite.db";
+    
     private JFrame window = new JFrame("college Management v0.1");
     private JPanel body = new JPanel();
     private JButton[] btn;
@@ -39,7 +43,9 @@ public class App
     private boolean loginkey = false;
 
     private void run() {
-        lbl.setIcon(new ImageIcon("image.jpg"));
+    	URL url = App.class.getResource("/image.jpg");
+    	ImageIcon icon = new ImageIcon(url);
+        lbl.setIcon(icon);
         lbl.setBounds(0, 0, 1720, 820);
         Font ft = new Font("Comic Sans MS", Font.BOLD, 18);
         // setting window sepecification
@@ -524,6 +530,7 @@ public class App
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
+                	Class.forName("org.sqlite.JDBC");
                     new App().run();
                 } catch (Exception e) {
                     e.printStackTrace();
